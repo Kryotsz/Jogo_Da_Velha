@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo_Da_Velha</title>
+    <style>
+        /* Class para personalizar o botão */
+        .personalizar{
+            width: 200px;
+            height: 200px;
+            font-size: 200px;
+        }
+        /* Class para centralizar o botão */
+        .centro{
+            text-align: center;
+        }
+        /* Class para deixar a linha vencedora na cor verde */
+        .corVencedor{
+            color:green;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cria todos os botões do jogo da velha, numa tabela de 3 por 3, totalizando 9 botões 
+         Todos possuem a personalização, e todos chamam a função "jogada()" passando como parâmetro o ID do botão clicado -->
+    <div class="centro">
+        <input type="button" id="botao1" onclick="jogada('botao1')" class="personalizar" value=" ">
+        <input type="button" id="botao2" onclick="jogada('botao2')" class="personalizar" value=" ">
+        <input type="button" id="botao3" onclick="jogada('botao3')" class="personalizar" value=" ">
+    </div>
+    <div class="centro">
+        <input type="button" id="botao4" onclick="jogada('botao4')" class="personalizar" value=" ">
+        <input type="button" id="botao5" onclick="jogada('botao5')" class="personalizar" value=" ">
+        <input type="button" id="botao6" onclick="jogada('botao6')" class="personalizar" value=" ">
+    </div>
+    <div class="centro">
+        <input type="button" id="botao7" onclick="jogada('botao7')" class="personalizar" value=" ">
+        <input type="button" id="botao8" onclick="jogada('botao8')" class="personalizar" value=" ">
+        <input type="button" id="botao9" onclick="jogada('botao9')" class="personalizar" value=" ">
+    </div>
+
+    <script>
+        // cria a variável de controle de cliques
+        var clique=1;
+
+        function jogada(botaoId){
+            // se o valor do botão clicado for diferente de X e O significa que está vazio, portanto a jogada é válida
+            if(document.getElementById(botaoId).value!="X"&&document.getElementById(botaoId).value!="O"){
+                // se o clique é ÍMPAR
+                if(clique%2!=0){
+                    // o botão recebe o valor de X
+                    document.getElementById(botaoId).value="X";
+                    // e a variável aumenta 1
+                    clique+=1;
+                // se o clique é PAR    
+                }else{
+                    // o botão recebe o valor de O
+                    document.getElementById(botaoId).value="O";
+                    // e a variável aumenta 1
+                    clique+=1;
+                }
+            }
+            
+            // ao final da função, chama outra função chamado "verificarVencedor()"
+            verificarVencedor();
+        }
+        
+        // função feita somente para exibir a mensagem de vitória
+        function ExibirMensagem(botaoId){
+            // da um delay na mensagem, para que o X ou o O apareça marcado na tela, antes da mensagem de vitória aparecer
+            setTimeout(function() {
+                // aparece um alerta parabenizando o jogador que venceu, indicando se ele é o X ou O
+                alert("Parabéns! O '"+document.getElementById(botaoId).value+"' ganhou o jogo!");
+            },2);
+            
+            // troca a variável fimDeJogo para true
+            fimDeJogo=true;
+
+            // se a variável fimDeJogo for true
+            if(fimDeJogo==true){
+                // todos os botões são disabilitados
+                document.getElementById('botao1').disabled=true;
+                document.getElementById('botao2').disabled=true;
+                document.getElementById('botao3').disabled=true;
+                document.getElementById('botao4').disabled=true;
+                document.getElementById('botao5').disabled=true;
+                document.getElementById('botao6').disabled=true;
+                document.getElementById('botao7').disabled=true;
+                document.getElementById('botao8').disabled=true;
+                document.getElementById('botao9').disabled=true;
+            }
+        }
+
+        // função que verifica se algum jogador ganhou o jogo, verificando todas as possibilidades
+        function verificarVencedor(){
+            // cria a variável para finalizar o jogo quando houver um vencedor
+            var fimDeJogo=false;
+
+            // se os três valores forem iguais e diferentes de vazio
+            if(document.getElementById('botao1').value==document.getElementById('botao2').value&&
+            document.getElementById('botao2').value==document.getElementById('botao3').value&&document.getElementById('botao3').value!=" "){
+                // deixa a linha vencedora na cor verde
+                document.getElementById('botao1').classList.add("corVencedor");
+                document.getElementById('botao2').classList.add("corVencedor");
+                document.getElementById('botao3').classList.add("corVencedor");
+                // chama a função de exibir a mensagem do vencedor, passando como parâmetro o ID de algum botão da linha que ganhou
+                // para saber se o jogador é X ou O
+                ExibirMensagem('botao1');
+            }else if(document.getElementById('botao1').value==document.getElementById('botao5').value&&
+            document.getElementById('botao5').value==document.getElementById('botao9').value&&document.getElementById('botao9').value!=" "){
+                document.getElementById('botao1').classList.add("corVencedor");
+                document.getElementById('botao5').classList.add("corVencedor");
+                document.getElementById('botao9').classList.add("corVencedor");
+                ExibirMensagem('botao1');
+            }else if(document.getElementById('botao1').value==document.getElementById('botao4').value&&
+            document.getElementById('botao4').value==document.getElementById('botao7').value&&document.getElementById('botao7').value!=" "){
+                document.getElementById('botao1').classList.add("corVencedor");
+                document.getElementById('botao4').classList.add("corVencedor");
+                document.getElementById('botao7').classList.add("corVencedor");
+                ExibirMensagem('botao1');
+            }else if(document.getElementById('botao2').value==document.getElementById('botao5').value&&
+            document.getElementById('botao5').value==document.getElementById('botao8').value&&document.getElementById('botao8').value!=" "){
+                document.getElementById('botao2').classList.add("corVencedor");
+                document.getElementById('botao5').classList.add("corVencedor");
+                document.getElementById('botao8').classList.add("corVencedor");
+                ExibirMensagem('botao2');
+            }else if(document.getElementById('botao3').value==document.getElementById('botao5').value&&
+            document.getElementById('botao5').value==document.getElementById('botao7').value&&document.getElementById('botao7').value!=" "){
+                document.getElementById('botao3').classList.add("corVencedor");
+                document.getElementById('botao5').classList.add("corVencedor");
+                document.getElementById('botao7').classList.add("corVencedor");
+                ExibirMensagem('botao3');
+            }else if(document.getElementById('botao3').value==document.getElementById('botao6').value&&
+            document.getElementById('botao6').value==document.getElementById('botao9').value&&document.getElementById('botao9').value!=" "){
+                document.getElementById('botao3').classList.add("corVencedor");
+                document.getElementById('botao6').classList.add("corVencedor");
+                document.getElementById('botao9').classList.add("corVencedor");
+                ExibirMensagem('botao3');
+            }else if(document.getElementById('botao4').value==document.getElementById('botao5').value&&
+            document.getElementById('botao5').value==document.getElementById('botao6').value&&document.getElementById('botao6').value!=" "){
+                document.getElementById('botao4').classList.add("corVencedor");
+                document.getElementById('botao5').classList.add("corVencedor");
+                document.getElementById('botao6').classList.add("corVencedor");
+                ExibirMensagem('botao4');
+            }else if(document.getElementById('botao7').value==document.getElementById('botao8').value&&
+            document.getElementById('botao8').value==document.getElementById('botao9').value&&document.getElementById('botao9').value!=" "){
+                document.getElementById('botao7').classList.add("corVencedor");
+                document.getElementById('botao8').classList.add("corVencedor");
+                document.getElementById('botao9').classList.add("corVencedor");
+                ExibirMensagem('botao7');
+            }
+        }
+    </script>
+</body>
+</html>
